@@ -9,9 +9,11 @@ export const listenerTypes: ListenerTypeInfo[] = [
     segmentId: 'LP-01',
     populationPct: '~22%',
     productRouting:
-      'Feature routing: aggressive recommendations, minimal explanation, mood-aware surfaces prioritized',
+      'Feature routing: high-confidence recommendation surfaces, reduced explanation friction, mood-aware contexts prioritized',
     internalDescription:
-      'High-trust, high-satisfaction segment. Algorithm accuracy maps directly to emotional payoff. Low churn risk; high sensitivity to resonance-breaking changes.',
+      'Satisfaction is tightly coupled to emotional accuracy, not genre matching — standard collaborative filtering metrics (skip rate, save rate) underpredict this segment\'s retention drivers. Risk model: low baseline churn, but disproportionate sensitivity to resonance-breaking algorithm changes because the trust is affective, not cognitive.',
+    diagnosticLine:
+      'Retention driver is emotional accuracy, not genre matching — standard CF metrics underpredict churn sensitivity for this segment.',
   },
   {
     name: 'The Transparent Listener',
@@ -21,9 +23,11 @@ export const listenerTypes: ListenerTypeInfo[] = [
     segmentId: 'LP-02',
     populationPct: '~18%',
     productRouting:
-      'Feature routing: explainability surfaces, co-creation tools, taste profile editing, recommendation tuning dials',
+      'Feature routing: explainability surfaces, co-creation tools, taste profile visibility, recommendation feedback loops',
     internalDescription:
-      'Early adopter segment for control features. Highest engagement with "why this was recommended" labels. Ideal beta cohort for algorithmic transparency experiments.',
+      'High need for algorithmic legibility — but "transparency" here means perceived control, not literal model explanation. Responds to narrative framing ("because you listened to X") more than technical accuracy. Best beta cohort for features that surface reasoning, but over-explanation risks patronizing this segment.',
+    diagnosticLine:
+      'High need for algorithmic legibility, but \'transparency\' here means perceived control, not model explanation. Over-engineering explainability risks patronizing.',
   },
   {
     name: 'The Skeptical Listener',
@@ -33,9 +37,11 @@ export const listenerTypes: ListenerTypeInfo[] = [
     segmentId: 'LP-03',
     populationPct: '~20%',
     productRouting:
-      'Feature routing: trust-building interventions, visible learning signals, post-skip disambiguation prompts',
+      'Feature routing: trust-building interventions, visible learning signals, feedback loop disambiguation',
     internalDescription:
-      'Highest churn risk segment. Perceives algorithm as opaque and unresponsive. Requires investment in feedback loop visibility before feature adoption improves.',
+      'The perception problem may be independent of actual algorithm performance — this segment may receive equally accurate recommendations as LP-01 but experience them as random. Churn risk is elevated not because the product fails, but because the product fails to communicate. Intervention question: does making the algorithm legible convert skeptics, or does skepticism reflect a stable disposition?',
+    diagnosticLine:
+      'Perception gap may be independent of actual algorithm performance — this segment may receive equally accurate recommendations and experience them as random.',
   },
   {
     name: 'The Surrendered Listener',
@@ -45,9 +51,11 @@ export const listenerTypes: ListenerTypeInfo[] = [
     segmentId: 'LP-04',
     populationPct: '~25%',
     productRouting:
-      'Feature routing: autoplay-heavy, minimal UI friction, suppress explainability features that add cognitive load',
+      'Feature routing: low-friction autoplay paths, minimal interstitial UI, passive personalization surfaces',
     internalDescription:
-      'Largest segment. Satisfaction without understanding — fragile trust that erodes disproportionately on miss. One bad recommendation week triggers outsized dissatisfaction.',
+      'Satisfaction without understanding creates a fragile trust structure — no mental model to absorb a miss. The product risk isn\'t churn from bad recommendations; it\'s that this segment can\'t distinguish a bad algorithm from a bad mood. Explaining "why" to this segment may actually decrease satisfaction by surfacing a process they prefer to ignore.',
+    diagnosticLine:
+      'Satisfaction without a mental model — trust structure is affective, not cognitive. Algorithm changes hit this segment before metrics detect it.',
   },
   {
     name: 'The Feeling Seeker',
@@ -57,9 +65,11 @@ export const listenerTypes: ListenerTypeInfo[] = [
     segmentId: 'LP-05',
     populationPct: '~15%',
     productRouting:
-      'Feature routing: serendipity-weighted recommendations, contextual playlists, Daylist and mood surfaces prioritized over genre accuracy',
+      'Feature routing: serendipity-weighted recommendations, contextual and mood surfaces, exploration-mode features',
     internalDescription:
-      'Hardest segment to serve with accuracy-optimized algorithms. Retention driven by affective peaks, not functional matching. Requires separate success metrics (resonance events/week vs. skip rate).',
+      'Standard accuracy metrics actively mislead for this segment — high skip rates may coexist with high satisfaction because the value is in the search, not the match. Requires its own success metrics (resonance events per session, save-after-skip patterns). Optimizing for low skip rate would flatten the experience this segment actually wants.',
+    diagnosticLine:
+      'Standard accuracy metrics actively mislead — high skip rates can coexist with high satisfaction. Optimizing for low skip rate flattens the experience this segment wants.',
   },
 ]
 
@@ -111,49 +121,64 @@ export function generateInsights(scores: ConstructScores): { title: string; body
   if (fit >= 5 && transparency <= 3) {
     insights.push({
       title: 'The Trust Paradox',
-      body: 'High Perceived Fit with low Transparency flags a product risk: satisfaction without understanding is fragile. One bad recommendation erodes trust disproportionately because the user has no mental model to explain a miss. Product implication: this segment needs explainability features most urgently.',
+      body: 'High Perceived Fit with low Transparency flags fragile trust — satisfaction without a mental model. This profile rated Discover Weekly highly (Q1) but showed low credibility tolerance on the AI DJ narration test (Q3), suggesting the algorithm earns trust through outcomes, not explanations. One visible miss erodes confidence disproportionately because there\'s no reasoning scaffold to absorb it.',
     })
   }
 
   if (resonance >= 5) {
     insights.push({
       title: 'Affect Over Accuracy',
-      body: "Emotional Resonance as the dominant dimension means this listener's retention driver isn't functional accuracy — it's affective peak experiences. Product implication: mood-aware recommendation and contextual framing (Daylist naming, time-of-day tuning) will move engagement metrics more than algorithm precision for this segment.",
+      body: 'High Resonance means the retention driver is affective peak experiences, not functional genre matching. This profile reported high anticipatory accuracy on the Daylist naming item (Q6) — the evocative label produced mood-prediction confidence before listening. Product routing: contextual framing surfaces (Daylist naming, time-of-day tuning, mood-aware playlists) will move engagement metrics more than algorithm precision improvements.',
     })
   }
 
   if (agency <= 3 && fit >= 4) {
     insights.push({
       title: 'The Feedback Gap',
-      body: 'The algorithm delivers but feels one-directional. Low Agency despite adequate Fit signals that feedback mechanisms are invisible or untrusted. Product implication: post-skip disambiguation ("not now" vs. "not ever") and visible learning signals ("we noticed you skipped jazz this week") would close this gap.',
+      body: 'Low skip confidence (Q7) despite adequate Fit reveals a one-directional relationship — the algorithm delivers, but behavioral signals feel unheard. The gap between "I like what it picks" and "I don\'t trust it learns from my skips" is a design problem, not an algorithm problem. Post-skip disambiguation ("not now" vs. "not ever") and visible learning signals ("we noticed you skipped jazz this week") would close this perception gap.',
     })
   }
 
   if (transparency >= 5 && agency >= 5) {
     insights.push({
       title: 'The Collaborator Profile',
-      body: 'High Transparency and Agency scores identify the ideal early adopter for co-creation features — playlist co-piloting, taste profile editing, recommendation tuning dials. Product implication: this segment will generate the highest engagement with any feature that surfaces algorithmic reasoning or grants control.',
+      body: 'High Transparency + Agency identifies the co-creation segment. This profile scored high on attribution need (Q4: "figure out why it\'s there") and skip confidence (Q7), indicating active participation in the feedback loop. Ideal beta cohort for features that surface algorithmic reasoning — but note from Q3: credibility tolerance may be high, meaning approximate explanations satisfy. Don\'t over-engineer the explainability.',
     })
   }
 
   if (resonance <= 3 && fit >= 4) {
     insights.push({
       title: 'Functional, Not Magical',
-      body: 'Accurate but emotionally flat — the algorithm is a utility, not a discovery engine. Product implication: this segment has hit the ceiling of genre-matching accuracy. The next value frontier is contextual personalization (mood, moment, activity) that creates affective peaks.',
+      body: 'Accurate but emotionally flat — the algorithm is a utility. Low Resonance despite adequate Fit means this profile\'s signal-to-noise threshold (Q2) is met, but the "right song for the right mood" frequency (Q5) is low. The ceiling of genre-matching accuracy has been hit. The next value frontier is contextual personalization that creates affective peaks — the variable Q5 and Q6 are designed to measure.',
     })
   }
 
   if (fit <= 3 && resonance <= 3) {
     insights.push({
       title: 'The Perception Deficit',
-      body: 'Low Fit and Resonance together could signal a genuine accuracy problem or a perception problem — the algorithm may perform better than it feels. Product implication: A/B test surfacing "why this was recommended" explanations to determine whether perception closes the gap without algorithm changes.',
+      body: 'Low Fit and Resonance together — but the critical question is whether this reflects genuine algorithm inaccuracy or a perception gap. Cross-referencing with behavioral play-through data (the metric Q2\'s "want to press play" is designed to pair with) would reveal whether the perception-behavior gap is large. If actual engagement outperforms self-reported fit, the intervention is perceptual, not algorithmic.',
     })
   }
 
   if (transparency <= 3 && agency <= 3) {
     insights.push({
       title: 'The Black Box Problem',
-      body: 'Low Transparency and Agency together indicate maximum perceived opacity. Product implication: this is the strongest signal for investment in explainability infrastructure — not as a feature request, but as a trust architecture problem that affects long-term retention.',
+      body: 'Low Transparency + Agency indicates maximum perceived opacity. This profile likely scored "just let it play" on Q4 (low attribution need) combined with low skip confidence (Q7) — passive engagement without trust. The research question: is this learned helplessness (feedback never worked) or disposition (never cared)? Longitudinal tracking of Q7 across listening tenure would distinguish the two and determine whether explainability investment converts this segment.',
+    })
+  }
+
+  // Methodology-grounded insights that fire on specific cross-item patterns
+  if (fit >= 4 && resonance >= 4 && agency <= 3) {
+    insights.push({
+      title: 'The Perception-Agency Disconnect',
+      body: 'This profile rates the algorithm as accurate (Q1-Q2) and emotionally resonant (Q5-Q6), but doesn\'t believe their feedback is heard (Q7). The instrument captures this as a construct-level tension: the system is perceived as good at its job but unresponsive to correction. This is a UX problem — making the feedback loop visible — not a model quality problem.',
+    })
+  }
+
+  if (transparency >= 4 && resonance <= 3) {
+    insights.push({
+      title: 'Legibility Without Magic',
+      body: 'High Transparency with low Resonance suggests this profile understands the algorithm but isn\'t moved by it. The AI DJ credibility test (Q3) likely landed well — "close enough" — but the Daylist anticipatory test (Q6) fell flat. The algorithm is legible but not emotionally intelligent. For this profile, the gap between "I see why it picked this" and "this is the right song for right now" is the product opportunity.',
     })
   }
 
@@ -161,11 +186,11 @@ export function generateInsights(scores: ConstructScores): { title: string; body
   if (insights.length === 0) {
     insights.push({
       title: 'A Balanced Profile',
-      body: "Even scores across all four dimensions — no single construct dominates. Product implication: this is the hardest segment to design for because there's no single lever to pull. Broad personalization improvements will move this segment incrementally; targeted interventions need to be identified through behavioral data pairing.",
+      body: 'Even scores across all four constructs — no single dimension dominates. Cross-item analysis shows consistent mid-range responses on both the direct measures (Q1, Q5) and the indirect/latent items (Q4, Q8), suggesting the profile isn\'t anchoring on surface-level questions differently than the deeper ones. This is the hardest segment to design for — no single lever to pull. Behavioral data pairing would surface the variable this instrument doesn\'t capture.',
     })
     insights.push({
       title: 'The Middle Ground',
-      body: "Moderate scores indicate personalization is working 'well enough' — functional but not remarkable. Product implication: the research question for this segment is what would make it remarkable. Qualitative follow-up (diary studies, in-depth interviews) would surface the missing variable.",
+      body: 'Moderate scores indicate personalization is functional but not remarkable. The signal-to-noise threshold (Q2) is met but not exceeded; affective peaks (Q5) are occasional, not regular. The research question for this segment is what would make it remarkable — and this instrument identifies where to look: the construct with the lowest variance across the two items is where the ceiling is binding.',
     })
   }
 

@@ -54,6 +54,7 @@ export interface ListenerTypeInfo {
   populationPct: string
   productRouting: string
   internalDescription: string
+  diagnosticLine: string
 }
 
 export interface Insight {

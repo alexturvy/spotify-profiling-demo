@@ -41,7 +41,7 @@ export default function PerceptionRadar({ scores }: PerceptionRadarProps) {
   return (
     <div className="w-full max-w-md mx-auto">
       <ResponsiveContainer width="100%" height={360}>
-        <RadarChart data={data} cx="50%" cy="50%" outerRadius="72%">
+        <RadarChart data={data} cx="50%" cy="50%" outerRadius="62%">
           <PolarGrid stroke="rgba(255,255,255,0.06)" />
           <PolarAngleAxis
             dataKey="construct"
@@ -58,6 +58,9 @@ export default function PerceptionRadar({ scores }: PerceptionRadarProps) {
             strokeDasharray="4 4"
             fill="transparent"
             strokeWidth={1.5}
+            isAnimationActive={true}
+            animationDuration={600}
+            animationBegin={0}
           />
           <Radar
             name="Your Scores"
@@ -71,6 +74,9 @@ export default function PerceptionRadar({ scores }: PerceptionRadarProps) {
               stroke: '#0a0b0f',
               strokeWidth: 2,
             }}
+            isAnimationActive={true}
+            animationDuration={800}
+            animationBegin={200}
           />
         </RadarChart>
       </ResponsiveContainer>

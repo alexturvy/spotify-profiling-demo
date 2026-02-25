@@ -3,12 +3,10 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { SurveyResponse, ConstructScores } from '@/types/survey'
-import { computeScores, normalizeScores } from '@/lib/scoring'
-import { classifyListener, generateInsights } from '@/lib/listener-types'
+import { computeScores } from '@/lib/scoring'
+import { classifyListener } from '@/lib/listener-types'
 import { questions } from '@/lib/questions'
-import PerceptionRadar from '@/components/results/PerceptionRadar'
 import SegmentTypology from '@/components/results/SegmentTypology'
-import InsightCards from '@/components/results/InsightCards'
 import MethodCard from '@/components/methodology/MethodCard'
 import FrameworkDiagram from '@/components/methodology/FrameworkDiagram'
 import Card from '@/components/ui/Card'
@@ -108,13 +106,11 @@ export default function PostSurveyPhase({ responses }: PostSurveyPhaseProps) {
 
   if (!scores) return null
 
-  const normalized = normalizeScores(scores)
   const listenerType = classifyListener(scores)
-  const insights = generateInsights(scores)
 
   return (
     <div className="relative z-10">
-      {/* ─── PHASE A: INDIVIDUAL RESPONSE PROFILE ─── */}
+      {/* ─── TYPOLOGY OPENER ─── */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.div
@@ -124,97 +120,26 @@ export default function PostSurveyPhase({ responses }: PostSurveyPhaseProps) {
             transition={{ duration: 0.5 }}
           >
             <span className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-accent block mb-3">
-              Response Profile
+              Latent Listener Segments
             </span>
-            <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold mb-4">
-              Your Perception Profile
-            </h2>
           </motion.div>
-
           <motion.p
             className="text-text-secondary text-sm text-center max-w-2xl mx-auto mb-12 leading-relaxed"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Your responses generate the following profile —
-            classified within Spotify&apos;s perception dataset alongside 640M+ listeners.
+            Your response pattern maps to one of 5 perception segments identified
+            through latent profile analysis.
           </motion.p>
 
-          {/* Radar chart + segment assignment */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <div className="glass-card p-6 sm:p-8">
-              <PerceptionRadar scores={normalized} />
-            </div>
-            <div className="glass-card p-8 flex flex-col items-center justify-center text-center">
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] uppercase text-text-muted mb-2 block">
-                Based on your response pattern
-              </span>
-              <p className="font-[family-name:var(--font-mono)] text-xs text-accent mb-3">
-                Segment {listenerType.segmentId}
-              </p>
-              <h3 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold text-text-primary mb-3">
-                {listenerType.name}
-              </h3>
-              <p className="font-[family-name:var(--font-mono)] text-xs text-text-muted mb-4">
-                {listenerType.pattern}
-              </p>
-              <p className="text-text-secondary text-base leading-relaxed max-w-md mx-auto italic">
-                &ldquo;{listenerType.description}&rdquo;
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ─── PHASE B: SEGMENT CLASSIFICATION SYSTEM ─── */}
-      <section className="px-6 pb-20">
-        <div className="max-w-4xl mx-auto">
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent mb-20" />
-
-          <ScrollReveal>
-            <div className="text-center mb-4">
-              <span className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-accent block mb-3">
-                Segment Classification
-              </span>
-              <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold mb-4">
-                How Spotify&apos;s Perception System Sorts This Profile
-              </h2>
-            </div>
-            <p className="text-text-secondary text-sm text-center max-w-2xl mx-auto mb-12 leading-relaxed">
-              Your response pattern maps to one of 5 latent listener segments.
-              Here&apos;s where you land — and what that means for product decisions.
-            </p>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.1}>
             <SegmentTypology activeType={listenerType} />
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* ─── PHASE C: ROUTING IMPLICATIONS ─── */}
-      <section className="px-6 pb-20">
-        <div className="max-w-4xl mx-auto">
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent mb-20" />
-
-          <ScrollReveal>
-            <div className="text-center mb-6">
-              <h3 className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] uppercase text-text-muted">
-                Routing Implications
-              </h3>
-              <p className="text-text-secondary text-sm max-w-xl mx-auto mt-2">
-                This segment classification triggers the following product behaviors.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <InsightCards insights={insights} />
+          </motion.div>
         </div>
       </section>
 
