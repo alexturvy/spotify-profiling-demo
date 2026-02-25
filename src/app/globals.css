@@ -1,19 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #0a0b0f;
-  --bg-secondary: #111318;
-  --bg-card: rgba(255, 255, 255, 0.03);
-  --bg-card-hover: rgba(255, 255, 255, 0.06);
-  --text-primary: #f0ede6;
-  --text-secondary: #8a8680;
-  --text-muted: #5a5650;
+  /* Spotify's actual palette — warm dark, not cold blue-black */
+  --bg-primary: #121212;
+  --bg-secondary: #1a1a1a;
+  --bg-card: #181818;
+  --bg-card-hover: #232323;
+  --text-primary: #ffffff;
+  --text-secondary: #a7a7a7;
+  --text-muted: #6a6a6a;
   --accent: #1ed760;
-  --accent-dim: rgba(30, 215, 96, 0.15);
-  --accent-glow: rgba(30, 215, 96, 0.3);
+  --accent-dim: rgba(30, 215, 96, 0.12);
+  --accent-glow: rgba(30, 215, 96, 0.25);
   --accent-warm: #e8c547;
-  --border: rgba(255, 255, 255, 0.06);
-  --border-active: rgba(30, 215, 96, 0.4);
+  --border: rgba(255, 255, 255, 0.07);
+  --border-active: rgba(30, 215, 96, 0.35);
 }
 
 @theme inline {
@@ -32,7 +33,7 @@
   --color-border-active: var(--border-active);
   --font-display: var(--font-syne);
   --font-mono: var(--font-martian);
-  --font-body: var(--font-inter);
+  --font-body: var(--font-circular);
 }
 
 * {
@@ -43,46 +44,33 @@
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-body), system-ui, sans-serif;
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
 }
 
-/* Noise texture overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  pointer-events: none;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px;
-}
-
-/* Glass card */
-.glass-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-}
-
-.glass-card-hover:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-active);
-}
-
-/* Gradient mesh background */
+/* Subtle top-down gradient — not a mesh, just atmosphere */
 .gradient-mesh {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 60% 40% at 20% 30%, rgba(30, 215, 96, 0.04) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 50% at 80% 70%, rgba(30, 215, 96, 0.03) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 30% at 50% 10%, rgba(232, 197, 71, 0.02) 0%, transparent 60%);
+  background: linear-gradient(
+    180deg,
+    rgba(30, 215, 96, 0.03) 0%,
+    transparent 40%
+  );
+}
+
+/* Solid opaque cards — not glassmorphism */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.glass-card-hover:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 /* Scale circle */
@@ -90,27 +78,25 @@ body::before {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 2px solid var(--border);
+  border: 2px solid rgba(255, 255, 255, 0.15);
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.15s ease;
   position: relative;
 }
 
 .scale-circle:hover {
   border-color: var(--accent);
-  transform: scale(1.15);
-  box-shadow: 0 0 20px var(--accent-glow);
+  transform: scale(1.08);
 }
 
 .scale-circle.selected {
   background: var(--accent);
   border-color: var(--accent);
-  box-shadow: 0 0 24px var(--accent-glow);
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .scale-circle.faded {
-  opacity: 0.35;
+  opacity: 0.3;
 }
 
 /* Numbered scale circles (for 9-point scales) */
@@ -131,7 +117,6 @@ body::before {
   height: 2px;
   background: var(--accent);
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 8px var(--accent-glow);
 }
 
 /* Scrollbar */
@@ -142,7 +127,7 @@ body::before {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -156,7 +141,7 @@ body::before {
 }
 
 .cursor-blink::after {
-  content: '▋';
+  content: '\25CB';
   animation: blink 1s infinite;
   color: var(--accent);
   margin-left: 2px;

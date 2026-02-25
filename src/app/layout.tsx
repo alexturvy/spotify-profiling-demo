@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Syne, Martian_Mono, Inter } from 'next/font/google'
+import { Syne, Martian_Mono, Outfit } from 'next/font/google'
 import './globals.css'
 
 const syne = Syne({
@@ -14,13 +14,14 @@ const martianMono = Martian_Mono({
   display: 'swap',
 })
 
-const inter = Inter({
-  variable: '--font-inter',
+const outfit = Outfit({
+  variable: '--font-circular',
   subsets: ['latin'],
   display: 'swap',
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://alexturvy.com/spotify'),
   title: 'The Personalization Perception Lab — Alex Turvy',
   description:
     'A live research instrument measuring the gap between what Spotify\'s algorithm does and what listeners actually perceive. Built by Alex Turvy, PhD.',
@@ -29,6 +30,7 @@ export const metadata: Metadata = {
     description:
       'You\'ve listened to 847 songs this month. But how many felt like they were chosen for you?',
     type: 'website',
+    url: 'https://alexturvy.com/spotify',
     images: [
       {
         url: '/og.png',
@@ -42,6 +44,7 @@ export const metadata: Metadata = {
     title: 'The Personalization Perception Lab',
     description:
       'You\'ve listened to 847 songs this month. But how many felt like they were chosen for you?',
+    images: ['/og.png'],
   },
 }
 
@@ -53,7 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${syne.variable} ${martianMono.variable} ${inter.variable} antialiased`}
+        className={`${syne.variable} ${martianMono.variable} ${outfit.variable} antialiased`}
       >
         <div className="gradient-mesh" />
         {children}

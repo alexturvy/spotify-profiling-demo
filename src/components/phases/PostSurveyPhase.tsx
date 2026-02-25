@@ -85,19 +85,19 @@ export default function PostSurveyPhase({ responses }: PostSurveyPhaseProps) {
           animate={{ opacity: 1 }}
         >
           <motion.div
-            className="w-16 h-16 rounded-full border-2 border-accent/30 mx-auto mb-4"
+            className="w-12 h-12 rounded-full border-2 border-accent/30 mx-auto mb-4"
             animate={{
-              scale: [1, 1.2, 1],
+              scale: [1, 1.15, 1],
               borderColor: [
                 'rgba(30,215,96,0.3)',
-                'rgba(30,215,96,0.6)',
+                'rgba(30,215,96,0.5)',
                 'rgba(30,215,96,0.3)',
               ],
             }}
             transition={{ duration: 1.5, repeat: Infinity }}
           />
           <p className="font-[family-name:var(--font-mono)] text-sm text-text-secondary">
-            Classifying your perception profile...
+            Running classification...
           </p>
         </motion.div>
       </div>
@@ -110,28 +110,39 @@ export default function PostSurveyPhase({ responses }: PostSurveyPhaseProps) {
 
   return (
     <div className="relative z-10">
-      {/* ─── TYPOLOGY OPENER ─── */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            className="text-center mb-4"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-accent block mb-3">
-              Latent Listener Segments
-            </span>
-          </motion.div>
+      {/* ─── NARRATIVE BRIDGE: SURVEY → ANALYSIS ─── */}
+      <section className="pt-20 pb-10 px-6">
+        <div className="max-w-2xl mx-auto text-center">
           <motion.p
-            className="text-text-secondary text-sm text-center max-w-2xl mx-auto mb-12 leading-relaxed"
+            className="text-text-secondary text-base leading-relaxed"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5 }}
           >
-            Your response pattern maps to one of 5 perception segments identified
-            through latent profile analysis.
+            Your 8 responses each measured a different dimension of how you
+            perceive Spotify&apos;s personalization. Those responses scored across
+            4 latent constructs — Perceived Fit, Transparency, Resonance, and
+            Agency — and the pattern places you into one of 5 listener segments.
           </motion.p>
+        </div>
+      </section>
+
+      {/* ─── TYPOLOGY: THE SEGMENTS ─── */}
+      <section className="pb-20 px-6">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            className="text-center mb-10"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+          >
+            <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] uppercase text-text-muted block mb-3">
+              Classification Result
+            </span>
+            <h2 className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl font-bold">
+              The 5 Latent Listener Segments
+            </h2>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -143,62 +154,48 @@ export default function PostSurveyPhase({ responses }: PostSurveyPhaseProps) {
         </div>
       </section>
 
-      {/* ─── SECTION: METHODOLOGY REVEAL ─── */}
+      {/* ─── BRIDGE: SEGMENTS → METHOD ─── */}
       <section className="px-6 pb-20">
         <div className="max-w-4xl mx-auto">
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent mb-20" />
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-20" />
 
           <ScrollReveal>
-            <div className="text-center mb-12">
-              <span className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-accent block mb-3">
-                The Research Behind the Research
+            <div className="max-w-2xl mx-auto text-center mb-16">
+              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] uppercase text-text-muted block mb-3">
+                How This Works
               </span>
-              <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold mb-4">
-                Methodology Reveal
+              <h2 className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl font-bold mb-5">
+                The Quantitative Pipeline
               </h2>
-              <p className="text-text-secondary text-base max-w-2xl mx-auto leading-relaxed">
-                You thought you were rating Discover Weekly playlists and Daylist
-                names. But your response pattern across 8 items maps to a 4-factor
-                latent perception model — and the questions were designed so the
-                construct mapping isn&apos;t obvious to the respondent.
+              <p className="text-text-secondary text-base leading-relaxed">
+                Those segments aren&apos;t arbitrary groupings. Your response
+                pattern ran through a 4-stage analytical pipeline — the same
+                methods used in psychometric research and market segmentation
+                at scale.
               </p>
             </div>
           </ScrollReveal>
 
-          {/* Expandable method cards */}
-          <div className="space-y-3 mb-16">
-            {questions.map((q, i) => (
-              <MethodCard key={q.id} question={q} index={i} />
-            ))}
-          </div>
-
-          {/* Advanced methods section */}
-          <ScrollReveal delay={0.1}>
-            <div className="mb-16">
-              <h3 className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] uppercase text-text-muted text-center mb-6">
-                Advanced Quantitative Methods
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {advancedMethods.map((method, i) => (
-                  <motion.div
-                    key={method.name}
-                    className="glass-card p-5"
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: i * 0.08 }}
-                  >
-                    <h4 className="font-[family-name:var(--font-mono)] text-xs text-accent mb-2">
+          {/* Pipeline overview: CFA → LPA → IRT → SEM */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-16">
+            {advancedMethods.map((method, i) => (
+              <ScrollReveal key={method.name} delay={i * 0.06}>
+                <div className="glass-card p-5 h-full">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="font-[family-name:var(--font-mono)] text-[10px] text-text-muted">
+                      0{i + 1}
+                    </span>
+                    <h4 className="font-[family-name:var(--font-mono)] text-xs text-accent">
                       {method.name}
                     </h4>
-                    <p className="text-text-secondary text-sm leading-relaxed">
-                      {method.description}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
+                  </div>
+                  <p className="text-text-secondary text-sm leading-relaxed">
+                    {method.description}
+                  </p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
 
           {/* Framework diagram */}
           <ScrollReveal delay={0.1}>
@@ -212,17 +209,47 @@ export default function PostSurveyPhase({ responses }: PostSurveyPhaseProps) {
         </div>
       </section>
 
+      {/* ─── SECTION: QUESTION-LEVEL METHODOLOGY ─── */}
+      <section className="px-6 pb-20">
+        <div className="max-w-4xl mx-auto">
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-20" />
+
+          <ScrollReveal>
+            <div className="max-w-2xl mx-auto text-center mb-12">
+              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] uppercase text-text-muted block mb-3">
+                Question by Question
+              </span>
+              <h2 className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl font-bold mb-5">
+                What Each Item Actually Measured
+              </h2>
+              <p className="text-text-secondary text-base leading-relaxed">
+                You thought you were rating Discover Weekly playlists and Daylist
+                names. Each question was designed so the construct mapping
+                isn&apos;t obvious to the respondent — here&apos;s what was
+                really going on.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="space-y-2.5">
+            {questions.map((q, i) => (
+              <MethodCard key={q.id} question={q} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─── SECTION: RESEARCH PROPOSALS ─── */}
       <section className="px-6 pb-20">
         <div className="max-w-4xl mx-auto">
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent mb-20" />
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-20" />
 
           <ScrollReveal>
             <div className="text-center mb-12">
-              <span className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-accent block mb-3">
+              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] uppercase text-text-muted block mb-3">
                 What I&apos;d Build
               </span>
-              <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold mb-4">
+              <h2 className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl font-bold mb-4">
                 Four Research Initiatives
               </h2>
               <p className="text-text-secondary text-base max-w-xl mx-auto">
@@ -232,16 +259,16 @@ export default function PostSurveyPhase({ responses }: PostSurveyPhaseProps) {
             </div>
           </ScrollReveal>
 
-          <div className="grid gap-4 mb-16">
+          <div className="grid gap-3 mb-16">
             {proposals.map((p, i) => (
               <Card key={p.title} hover className="relative">
                 <motion.div
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  transition={{ duration: 0.35, delay: i * 0.08 }}
                 >
-                  <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.12em] uppercase text-accent-warm px-2 py-0.5 rounded-full border border-accent-warm/20 bg-accent-warm/10 inline-block mb-3">
+                  <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.12em] uppercase text-accent-warm px-2 py-0.5 rounded border border-accent-warm/20 bg-accent-warm/10 inline-block mb-3">
                     {p.tag}
                   </span>
                   <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-text-primary mb-2">
@@ -260,7 +287,7 @@ export default function PostSurveyPhase({ responses }: PostSurveyPhaseProps) {
       {/* ─── SECTION: ABOUT + CTAs ─── */}
       <section className="px-6 pb-20">
         <div className="max-w-4xl mx-auto">
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent mb-20" />
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-20" />
 
           <ScrollReveal>
             <div className="glass-card p-8 sm:p-10 mb-12 max-w-2xl mx-auto">

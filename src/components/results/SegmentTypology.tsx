@@ -19,7 +19,6 @@ export default function SegmentTypology({ activeType }: SegmentTypologyProps) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Fire once when section leaves viewport (scrolled past)
         if (!entry.isIntersecting) {
           setHighlightFaded(true)
           observer.disconnect()
@@ -34,42 +33,40 @@ export default function SegmentTypology({ activeType }: SegmentTypologyProps) {
 
   return (
     <div ref={sectionRef}>
-      <p className="font-[family-name:var(--font-mono)] text-xs text-text-muted text-center mb-6">
-        Simplified for demonstration
-      </p>
-      <div className="grid gap-3">
+      <div className="grid gap-2.5">
         {listenerTypes.map((segment, i) => {
           const isActive = segment.segmentId === activeType.segmentId
           return (
             <motion.div
               key={segment.segmentId}
-              className="glass-card p-5 transition-colors duration-500"
-              initial={{ opacity: 0, y: 12 }}
+              className="rounded-lg p-5"
+              initial={{ opacity: 0, y: 10 }}
               animate={{
-                opacity: highlightFaded ? 1 : isActive ? 1 : 0.45,
+                opacity: highlightFaded ? 1 : isActive ? 1 : 0.4,
                 y: 0,
-                borderColor: !highlightFaded && isActive
-                  ? 'rgba(30,215,96,0.4)'
-                  : 'rgba(255,255,255,0.06)',
               }}
-              transition={{ duration: 0.5, delay: highlightFaded ? 0 : 0.1 + i * 0.08 }}
+              transition={{ duration: 0.4, delay: highlightFaded ? 0 : 0.1 + i * 0.06 }}
               style={{
-                border: '1px solid',
                 background: !highlightFaded && isActive
-                  ? 'rgba(30,215,96,0.04)'
-                  : undefined,
+                  ? 'rgba(30,215,96,0.06)'
+                  : 'var(--bg-card)',
+                border: `1px solid ${
+                  !highlightFaded && isActive
+                    ? 'rgba(30,215,96,0.25)'
+                    : 'var(--border)'
+                }`,
               }}
             >
-              <div className="flex items-start justify-between gap-4 mb-2">
+              <div className="flex items-start justify-between gap-4 mb-1.5">
                 <div className="flex items-center gap-3">
                   <span
-                    className={`font-[family-name:var(--font-mono)] text-[11px] tracking-wider transition-colors duration-500 ${
+                    className={`font-[family-name:var(--font-mono)] text-[11px] tracking-wider ${
                       isActive ? 'text-accent' : 'text-text-muted'
                     }`}
                   >
                     {segment.segmentId}
                   </span>
-                  <h4 className="font-[family-name:var(--font-display)] text-base font-semibold text-text-primary">
+                  <h4 className="font-[family-name:var(--font-display)] text-[15px] font-semibold text-text-primary">
                     {segment.name}
                   </h4>
                 </div>
@@ -77,10 +74,10 @@ export default function SegmentTypology({ activeType }: SegmentTypologyProps) {
                   {segment.populationPct}
                 </span>
               </div>
-              <p className="font-[family-name:var(--font-mono)] text-[11px] text-text-secondary mb-2">
+              <p className="font-[family-name:var(--font-mono)] text-[11px] text-text-muted mb-1.5">
                 {segment.pattern}
               </p>
-              <p className="text-text-secondary text-sm leading-relaxed mb-2">
+              <p className="text-text-secondary text-sm leading-relaxed mb-1.5">
                 {segment.internalDescription}
               </p>
               <p className="font-[family-name:var(--font-mono)] text-[10px] text-text-muted leading-relaxed">

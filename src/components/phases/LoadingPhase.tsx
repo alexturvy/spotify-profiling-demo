@@ -15,7 +15,6 @@ export default function LoadingPhase({ onComplete }: LoadingPhaseProps) {
   const [visibleItems, setVisibleItems] = useState(0)
 
   useEffect(() => {
-    // "Connecting" phase
     const connectTimer = setTimeout(() => {
       setStage('revealing')
     }, 1200)
@@ -85,14 +84,14 @@ export default function LoadingPhase({ onComplete }: LoadingPhaseProps) {
               <motion.div
                 key={item.label}
                 className="flex items-center gap-3"
-                initial={{ opacity: 0, x: -12 }}
+                initial={{ opacity: 0, x: -8 }}
                 animate={{
                   opacity: i < visibleItems ? 1 : 0,
-                  x: i < visibleItems ? 0 : -12,
+                  x: i < visibleItems ? 0 : -8,
                 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
               >
-                <span className="text-accent text-xs">◼</span>
+                <span className="text-accent text-[10px]">&#9632;</span>
                 <span className="text-text-primary font-semibold">
                   {item.value}
                 </span>
@@ -104,10 +103,10 @@ export default function LoadingPhase({ onComplete }: LoadingPhaseProps) {
           <AnimatePresence>
             {stage === 'done' && (
               <motion.p
-                className="mt-8 text-text-secondary italic"
-                initial={{ opacity: 0, y: 8 }}
+                className="mt-8 text-text-secondary"
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.3 }}
               >
                 Let&apos;s measure what the numbers miss.
               </motion.p>

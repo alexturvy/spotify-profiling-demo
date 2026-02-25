@@ -18,13 +18,13 @@ export default function Button({
   className = '',
 }: ButtonProps) {
   const base =
-    'inline-flex items-center justify-center gap-2 font-[family-name:var(--font-display)] font-semibold tracking-wide transition-all duration-300 cursor-pointer'
+    'inline-flex items-center justify-center gap-2 font-[family-name:var(--font-body)] font-semibold tracking-wide transition-all duration-200 cursor-pointer'
 
   const variants = {
     primary:
-      'bg-accent text-bg-primary px-8 py-4 rounded-full text-base hover:shadow-[0_0_32px_var(--accent-glow)] hover:scale-[1.02] active:scale-[0.98]',
+      'bg-accent text-bg-primary px-8 py-3.5 rounded-full text-sm hover:bg-[#1fdf64] hover:scale-[1.02] active:scale-[0.98] active:bg-[#1ac955]',
     secondary:
-      'border border-border text-text-primary px-6 py-3 rounded-full text-sm hover:border-accent hover:text-accent',
+      'border border-[rgba(255,255,255,0.15)] text-text-primary px-6 py-2.5 rounded-full text-sm hover:border-[rgba(255,255,255,0.3)] hover:bg-[rgba(255,255,255,0.05)]',
     ghost:
       'text-text-secondary text-sm hover:text-text-primary underline-offset-4 hover:underline',
   }

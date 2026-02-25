@@ -16,10 +16,10 @@ export default function Card({
   return (
     <motion.div
       className={`glass-card ${hover ? 'glass-card-hover' : ''} p-6 ${className}`}
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       {children}
     </motion.div>

@@ -111,7 +111,7 @@ export const questions: Question[] = [
   {
     id: 6,
     construct: 'Emotional Resonance',
-    text: "Your Daylist was recently named 'melancholy indie Tuesday afternoon.' Seeing that name, you already knew whether it would match your mood right now.",
+    text: "Your Daylist is called 'melancholy indie Tuesday afternoon.' Seeing that name, you already know whether it'll match your mood right now.",
     context: 'melancholy indie Tuesday afternoon',
     scaleLeft: 'Not for me',
     scaleRight: 'Exactly',
